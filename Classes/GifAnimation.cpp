@@ -599,14 +599,14 @@ int GifAnimation::getTextureList(const std::string &filePath, TextureArray &text
 
 Animation* GifAnimation::createAnimation(const GifAnimationDef &def)
 {
-	auto result = _animation.find(def.filePath);
-	if (result != _animation.end())
+	auto result = m_animation.find(def.filePath);
+	if (result != m_animation.end())
 	{
 		return AnimationCache::getInstance()->getAnimation(def.filePath);
 	}
 
-	_textureArray.clear();
-	int count = getTextureList(def.filePath, _textureArray);
+	m_textureArray.clear();
+	int count = getTextureList(def.filePath, m_textureArray);
 	if (count < 1) return nullptr;
 
 	Animation *pAnimation = Animation::create();
@@ -614,15 +614,15 @@ Animation* GifAnimation::createAnimation(const GifAnimationDef &def)
 	pAnimation->setRestoreOriginalFrame(def.restoreOriginalFrame);
 	pAnimation->setLoops(def.loops);
 
-	for (size_t i = 0; i < _textureArray.size(); i++)
+	for (size_t i = 0; i < m_textureArray.size(); i++)
 	{
-		pAnimation->addSpriteFrameWithTexture(_textureArray[i], Rect(0, 0, _textureArray[i]->getContentSize().width, _textureArray[i]->getContentSize().height));
+		pAnimation->addSpriteFrameWithTexture(m_textureArray[i], Rect(0, 0, m_textureArray[i]->getContentSize().width, m_textureArray[i]->getContentSize().height));
 	}
 	AnimationCache::getInstance()->addAnimation(pAnimation, def.filePath);
 
-	for (unsigned int i = 0; i < _textureArray.size(); ++i)
+	for (unsigned int i = 0; i < m_textureArray.size(); ++i)
 	{
-		_animation.insert(std::make_pair(def.filePath, _textureArray[i]));
+		m_animation.insert(std::make_pair(def.filePath, m_textureArray[i]));
 	}
 
 	return pAnimation;
@@ -630,21 +630,21 @@ Animation* GifAnimation::createAnimation(const GifAnimationDef &def)
 
 void GifAnimation::removeAnimation(const std::string &name)
 {
-	auto range = _animation.equal_range(name);
+	auto range = m_animation.equal_range(name);
 	for (auto itr = range.first; itr != range.second;)
 	{
 		Director::getInstance()->getTextureCache()->removeTexture((*itr).second);
-		itr = _animation.erase(itr);
+		itr = m_animation.erase(itr);
 	}
 	AnimationCache::getInstance()->removeAnimation(name);
 }
 
 void GifAnimation::removeAllAnimation()
 {
-	for (auto itr = _animation.begin(); itr != _animation.end(); ++itr)
+	for (auto itr = m_animation.begin(); itr != m_animation.end(); ++itr)
 	{
 		AnimationCache::getInstance()->removeAnimation((*itr).first);
 		Director::getInstance()->getTextureCache()->removeTexture((*itr).second);
 	}
-	_animation.clear();
+	m_animation.clear();
 }

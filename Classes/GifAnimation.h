@@ -22,7 +22,7 @@ class GifAnimation : public Singleton < GifAnimation >
 {
 	GifAnimation() {};
 	~GifAnimation() {};
-	friend class Singleton < GifAnimation >;
+	friend class Singleton < GifAnimation > ;
 
 public:
 	/**
@@ -60,8 +60,8 @@ private:
 	int getTextureList(const std::string &filePath, TextureArray &textureArray);
 
 private:
-	TextureArray _textureArray;
-	std::multimap<std::string, cocos2d::Texture2D *> _animation;
+	TextureArray m_textureArray;
+	std::multimap<std::string, cocos2d::Texture2D *> m_animation;
 };
 
 #endif
