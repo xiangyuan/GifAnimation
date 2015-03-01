@@ -1,4 +1,11 @@
-﻿#ifndef __GIFANIMATION_H__
+﻿/****************************************************************************
+Copyright (c) 2015 Zhangpanyi
+
+Created by Zhangpanyi on 2015
+
+zhangpanyi@live.com
+****************************************************************************/
+#ifndef __GIFANIMATION_H__
 #define __GIFANIMATION_H__
 
 #include "cocos2d.h"
